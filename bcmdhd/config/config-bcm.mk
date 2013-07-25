@@ -15,12 +15,24 @@
 #
 
 ########################
--include hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk
 
-BCM_FW_SRC_FILE_STA := fw_bcm4324.bin
-BCM_FW_SRC_FILE_AP  := fw_bcm4324.bin
+include $(CLEAR_VARS)
+LOCAL_MODULE := dhcpcd.conf
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/dhcpcd
+LOCAL_SRC_FILES := android_dhcpcd.conf
+include $(BUILD_PREBUILT)
 
+#########################
+
+WIFI_DRIVER_SOCKET_IFACE := wlan0
+ifeq ($(strip $(WPA_SUPPLICANT_VERSION)),VER_0_8_X)
+  include external/wpa_supplicant_8/wpa_supplicant/wpa_supplicant_conf.mk
+else
+  include external/wpa_supplicant_6/wpa_supplicant/wpa_supplicant_conf.mk
+endif
+
+#######################
 PRODUCT_COPY_FILES += \
-    hardware/broadcom/wlan/bcmdhd/firmware/bcm4324/$(BCM_FW_SRC_FILE_STA):system/vendor/firmware/fw_bcmdhd.bin \
-    hardware/broadcom/wlan/bcmdhd/firmware/bcm4324/$(BCM_FW_SRC_FILE_AP):system/vendor/firmware/fw_bcmdhd_apsta.bin
+    hardware/broadcom/wlan/bcmdhd/config/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
 ########################
