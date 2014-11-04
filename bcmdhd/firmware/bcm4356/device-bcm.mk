@@ -17,10 +17,15 @@
 ########################
 -include hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk
 
-BCM_FW_SRC_FILE_STA := fw_bcm4350.bin
-BCM_FW_SRC_FILE_AP  := fw_bcm4350.bin
+ifeq ($(strip $(WIFI_BUS)),SDIO)
+BCM_FW_SRC_FILE_STA := fw_bcm4356_sdio.bin
+BCM_FW_SRC_FILE_AP  := fw_bcm4356_ap_sdio.bin
+else
+BCM_FW_SRC_FILE_STA := fw_bcm4356_pcie.bin
+BCM_FW_SRC_FILE_AP  := fw_bcm4356_ap_pcie.bin
+endif
 
 PRODUCT_COPY_FILES += \
-    hardware/broadcom/wlan/bcmdhd/firmware/bcm4350/$(BCM_FW_SRC_FILE_STA):$(TARGET_COPY_OUT_VENDOR)/firmware/fw_bcmdhd.bin \
-    hardware/broadcom/wlan/bcmdhd/firmware/bcm4350/$(BCM_FW_SRC_FILE_AP):$(TARGET_COPY_OUT_VENDOR)/firmware/fw_bcmdhd_apsta.bin
+    hardware/broadcom/wlan/bcmdhd/firmware/bcm4356/$(BCM_FW_SRC_FILE_STA):$(TARGET_COPY_OUT_VENDOR)/firmware/fw_bcmdhd.bin \
+    hardware/broadcom/wlan/bcmdhd/firmware/bcm4356/$(BCM_FW_SRC_FILE_AP):$(TARGET_COPY_OUT_VENDOR)/firmware/fw_bcmdhd_apsta.bin
 ########################

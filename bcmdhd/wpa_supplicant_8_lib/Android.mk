@@ -35,7 +35,7 @@ WPA_SUPPL_DIR_INCLUDE = $(WPA_SUPPL_DIR)/src \
 	$(WPA_SUPPL_DIR)/wpa_supplicant
 
 ifdef CONFIG_DRIVER_NL80211
-WPA_SUPPL_DIR_INCLUDE += external/libnl-headers
+WPA_SUPPL_DIR_INCLUDE += external/libnl/include
 WPA_SRC_FILE += driver_cmd_nl80211.c
 endif
 
@@ -50,6 +50,14 @@ endif
 
 ifdef CONFIG_ANDROID_LOG
 L_CFLAGS += -DCONFIG_ANDROID_LOG
+endif
+
+ifdef CONFIG_P2P
+L_CFLAGS += -DCONFIG_P2P
+endif
+
+ifeq ($(TARGET_USES_64_BIT_BCMDHD),true)
+L_CFLAGS += -DBCMDHD_64_BIT_IPC
 endif
 
 ########################
